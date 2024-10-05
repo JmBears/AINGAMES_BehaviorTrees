@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Data.Common;
+using Panda;
 public class Hunger : MonoBehaviour
 {
     [SerializeField]
@@ -32,7 +33,7 @@ public class Hunger : MonoBehaviour
     {
         get
         {
-            Debug.Log(_hunger);
+            //Debug.Log(_hunger);
             if (_hunger <= 0)
             {
                 // Call the function assigned to the Action
@@ -99,6 +100,25 @@ public class Hunger : MonoBehaviour
     {
         return CurrentHunger <= maxHunger/2;
     }
+
+    public void Eat(int value)
+    {
+        CurrentHunger += value;
+    }
+
+    [Task]
+    public void CheckHunger()
+    {
+        if (IsHungry())
+        {
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
     /*
     public void SetHungerDepletedCallback(System.Action callback)
     {
